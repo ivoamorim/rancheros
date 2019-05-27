@@ -1,0 +1,36 @@
+#cloud-config
+ssh_authorized_keys:
+- ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDW7CPH8jCKKpzsuSUgIOOBiEbbw+ILcP30m6u8Mddx+d8nk6x+/nw1vATbxNR14mMbIMKdmAGQcSiKqZU3vLTC0SExp2U7YWCbpZfNllY/zOYfFlwxrqlsWt7whzMkUhCOfsIkOjdneP6e53OSno4xrJfMYXgUoDF1AROE0onZ6ilLr41Slot9M4rHKptbnXrlmP1PTDbIhhf2H2xKnUIiHWZyAOaOfUJ8n5g5BRq1VVQqUQxs4HOEq3zwi1oWjVblXOYSBjgYz7dSNzRG0rO2GfbgKMTPJ95hj99EQXvx+TmrH/ZBKZzGt5lct+/7qA1oxy2Yvo3IV7udrICxTNXkvN6K9e4LP5HgEubVlm90J0Be+w6jU4WQNrc8OXP3SoezUkrrOYq29KBd7Bg/q3YfBC8tUfJHg0Uwi56NMnahYcADU6LNGk0oBQNqfYE3sFWWPCAkDk/vQ+xV2OKG6GsqciKevqihhQMUFheU2DEzlv9HiIiGzLpbUuhG/ryCTHy1+fkuVlySHcpGpRT2yoIcJOTTVw5i3F0O0V5rhyMFUPOpFSQMK4odrut2XeGrUnQV2C7rr3Iab+c34gwTwHhi7esBZrng6lDevRz9qcY/kg8EIYvIzLEyLaCjxi3H6TlPhSx/oPLjdWYkg9PK+bJ9qXGMYGdwfVv/bbEhdw7Lzw== yuki@iMac2014
+
+hostname: test
+
+runcmd:
+- echo "true" > /home/rancher/provisioned
+
+write_files:
+- path: /home/rancher/test.txt
+  permissions: "0644"
+  owner: rootq
+  content: |
+    This is a test file created by cloud-config.yml
+
+rancher:
+  console: debian
+  state:
+    fstype: auto
+    dev: LABEL=RANCHER_STATE
+  network:
+    dns:
+      nameservers:
+      - 8.8.8.8
+      - 8.8.4.4
+      override: true # Override if DHCP assigned nameservers
+    interfaces:
+      eth0:
+        dhcp: true
+      #eth1:
+      # dhcp: false
+      # address: 192.168.0.100/24
+      # gateway: 192.168.0.100/24
+      # mtu: 1500
+      # vlans: 100
